@@ -1,18 +1,9 @@
 import ReactDOM from 'react-dom/client'
 import './index.css'
+import React from "react";
 
 function Welcome(props) {
     return <h1>Hello, {props.name}</h1>;
-}
-
-function App() {
-    return (
-        <div>
-            <Welcome name="Sara" />
-            <Welcome name="Cahal" />
-            <Welcome name="Edite" />
-        </div>
-    );
 }
 
 function formatDate(date) {
@@ -61,11 +52,48 @@ const comment = {
         avatarUrl: 'http://placekitten.com/g/64/64'
     }
 };
+class Clock extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {date: new Date()};
+    }
+
+    componentDidMount() {
+        this.timerID = setInterval(
+            () => this.tick(),
+            1000
+        );
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+
+    tick() {
+        this.setState({
+            date: new Date()
+        });
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>Hello, world!</h1>
+                <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+            </div>
+        );
+    }
+}
+
+function App() {
+    return (
+        <div>
+            <Clock />
+            <Clock />
+            <Clock />
+        </div>
+    );
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-    <Comment
-        date={comment.date}
-        text={comment.text}
-        author={comment.author} />
-);
+root.render(<App />);
