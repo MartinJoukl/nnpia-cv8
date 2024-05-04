@@ -13,7 +13,7 @@ function formatDate(date) {
 function Comment(props) {
     return (
         <div className="Comment">
-            <UserInfo user={props.author} />
+            <UserInfo user={props.author}/>
             <div className="Comment-text">
                 {props.text}
             </div>
@@ -36,7 +36,7 @@ function Avatar(props) {
 function UserInfo(props) {
     return (
         <div className="UserInfo">
-            <Avatar user={props.user} />
+            <Avatar user={props.user}/>
             <div className="UserInfo-name">
                 {props.user.name}
             </div>
@@ -52,6 +52,7 @@ const comment = {
         avatarUrl: 'http://placekitten.com/g/64/64'
     }
 };
+
 class Clock extends React.Component {
     constructor(props) {
         super(props);
@@ -88,9 +89,9 @@ class Clock extends React.Component {
 function App() {
     return (
         <div>
-            <Clock />
-            <Clock />
-            <Clock />
+            <Clock/>
+            <Clock/>
+            <Clock/>
         </div>
     );
 }
@@ -161,9 +162,9 @@ function LogoutButton(props) {
 function Greeting(props) {
     const isLoggedIn = props.isLoggedIn;
     if (isLoggedIn) {
-        return <UserGreeting />;
+        return <UserGreeting/>;
     }
-    return <GuestGreeting />;
+    return <GuestGreeting/>;
 }
 
 class LoginControl extends React.Component {
@@ -186,14 +187,14 @@ class LoginControl extends React.Component {
         const isLoggedIn = this.state.isLoggedIn;
         let button;
         if (isLoggedIn) {
-            button = <LogoutButton onClick={this.handleLogoutClick} />;
+            button = <LogoutButton onClick={this.handleLogoutClick}/>;
         } else {
-            button = <LoginButton onClick={this.handleLoginClick} />;
+            button = <LoginButton onClick={this.handleLoginClick}/>;
         }
 
         return (
             <div>
-                <Greeting isLoggedIn={isLoggedIn} />
+                <Greeting isLoggedIn={isLoggedIn}/>
                 {button}
             </div>
         );
@@ -244,7 +245,7 @@ class Page extends React.Component {
     render() {
         return (
             <div>
-                <WarningBanner warn={this.state.showWarning} />
+                <WarningBanner warn={this.state.showWarning}/>
                 <button onClick={this.handleToggleClick}>
                     {this.state.showWarning ? 'Hide' : 'Show'}
                 </button>
@@ -253,5 +254,55 @@ class Page extends React.Component {
     }
 }
 
+const numbers = [1, 2, 3, 4, 5];
+
+function ListItem(props) {
+    // Correct! There is no need to specify the key here:
+    return <li>{props.value}</li>;
+}
+
+function NumberList(props) {
+    const numbers = props.numbers;
+    const listItems = numbers.map((number) =>
+        // Correct! Key should be specified inside the array.
+        <ListItem key={number.toString()} value={number}/>
+    );
+    return (
+        <ul>
+            {listItems}
+        </ul>
+    );
+}
+
+function Blog(props) {
+    const sidebar = (
+        <ul>
+            {props.posts.map((post) =>
+                <li key={post.id}>
+                    {post.title}
+                </li>
+            )}
+        </ul>
+    );
+    const content = props.posts.map((post) =>
+        <div key={post.id}>
+            <h3>{post.title}</h3>
+            <p>{post.content}</p>
+        </div>
+    );
+    return (
+        <div>
+            {sidebar}
+            <hr/>
+            {content}
+        </div>
+    );
+}
+
+const posts = [
+    {id: 1, title: 'Hello World', content: 'Welcome to learning React!'},
+    {id: 2, title: 'Installation', content: 'You can install React from npm.'}
+];
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<Page />);
+root.render(<Blog posts={posts}/>);
